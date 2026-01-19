@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root "games#show", id: "1" # Points the homepage to Game #1
   resources :games, only: [:show,:update]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
