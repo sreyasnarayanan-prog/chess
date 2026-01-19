@@ -1,0 +1,48 @@
+<%# app/views/games/show.html.erb %>
+<style>
+  .chess-board {
+    border-collapse: collapse;
+    margin: 20px auto;
+  }
+
+  .chess-board td {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    font-size: 40px;
+    border: 1px solid #999;
+  }
+
+  .dark {
+    background-color: #b58863;
+  }
+
+  .light {
+    background-color: #f0d9b5;
+  }
+</style>
+
+<div style="text-align: center;">
+  <h1>Game #<%= @game.id %></h1>
+
+  <table class="chess-board">
+    <% @rows.each_with_index do |row, r_idx| %>
+    <tr>
+      <% row.each_with_index do |piece, c_idx| %>
+      <%# Alternate colors: (row + col) is even for light, odd for dark %>
+      <td class="<%= (r_idx + c_idx).even? ? 'light' : 'dark' %>">
+        <%= render_piece(piece) %>
+      </td>
+      <% end %>
+    </tr>
+    <% end %>
+  </table>
+
+  <%= form_with url: game_path(@game), method: :patch do |f| %>
+  <%= f.text_field :move, placeholder: "e2e4", autofocus: true %>
+  <%= f.submit "Play Move" %>
+  <% end %>
+
+  <% if flash[:alert] %><p style="color: red;"><%= flash[:alert] %></p><% end %>
+  <% if flash[:notice] %><p style="color: green;"><%= flash[:notice] %></p><% end %>
+</div>
